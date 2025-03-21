@@ -10,6 +10,9 @@ on:
 jobs:
   build-esp-32:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -42,11 +45,11 @@ jobs:
           chmod +x ./scripts/determine_version.sh
           ./scripts/determine_version.sh
           # Ensure these variables are being set correctly
-          echo "branchname=${branchname}" >> $GITHUB_ENV
-          echo "commithash=${commithash}" >> $GITHUB_ENV
-          echo "buildtimestamp=${buildtimestamp}" >> $GITHUB_ENV
-          echo "buildversion=${buildversion}" >> $GITHUB_ENV
-          echo "buildversionfilename=${buildversionfilename}" >> $GITHUB_ENV
+          echo "branchname=$branchname" >> $GITHUB_ENV
+          echo "commithash=$commithash" >> $GITHUB_ENV
+          echo "buildtimestamp=$buildtimestamp" >> $GITHUB_ENV
+          echo "buildversion=$buildversion" >> $GITHUB_ENV
+          echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
       - name: Debug the exported environment variables
         run: |
@@ -79,13 +82,13 @@ jobs:
             #endif
 
       - name: Bump versionInfo.h changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          default_author: github_actions
-          message: "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
-          add: "src/versionInfo.h"
-          cwd: "./"
-
+        run: |
+          git config --global user.email "wallnuts73@gmail.com"
+          git config --global user.name "WallNutss"
+          git remote add origin git@github.com:WallNutss/Biometric-RFID-Access-Firmware-Clone.git
+          git add "src/versionInfo.h"
+          git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
+          git push origin 
       - name: Building
         run: chmod +x ./scripts/build.sh
         shell: bash
@@ -94,6 +97,7 @@ jobs:
         run: |
           git config --global user.email "wallnuts73@gmail.com"
           git config --global user.name "WallNutss"
+          git remote add origin git@github.com:WallNutss/Biometric-RFID-Access-Firmware-Clone.git
           git tag -a "${{ env.buildversion }}" -m "Release version v${{ env.buildversion }}"
           git push origin tag "${{ env.buildversion }}"
         env:
