@@ -42,6 +42,7 @@ jobs:
           chmod +x ./scripts/determine_version.sh
           ./scripts/determine_version.sh
           # Ensure these variables are being set correctly
+          echo $git describe --tags --abbrev=0
           echo "branchname=$branchname" >> $GITHUB_ENV
           echo "commithash=$commithash" >> $GITHUB_ENV
           echo "buildtimestamp=$buildtimestamp" >> $GITHUB_ENV
