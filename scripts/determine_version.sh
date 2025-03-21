@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # Function to increment version numbers
 increment_version() {
@@ -31,7 +31,12 @@ buildtimestamp=$(date "+%Y-%b-%d-%H:%M:%S")
 echo "Build timestamp: $buildtimestamp"
 
 # Ensure we fetch all commits and tags, not just a shallow clone
-fulltag=$(git describe --tags --abbrev=0)
+if git rev-parse --verify refs/remotes/origin/main >/dev/null 2>&1; then
+    # Get the latest tag reachable from origin/main
+    fulltag=$(git describe --tags $(git rev-parse --verify refs/remotes/origin/main))
+else
+    fulltag="0.0.0"
+fi
 echo "Latest tag on origin/main: $fulltag"
 
 versiontag=$(echo $fulltag | cut -d'-' -f1)
