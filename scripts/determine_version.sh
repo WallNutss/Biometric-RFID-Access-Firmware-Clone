@@ -30,10 +30,16 @@ echo "Commit hash: $commithash"
 buildtimestamp=$(date "+%Y-%b-%d-%H:%M:%S")
 echo "Build timestamp: $buildtimestamp"
 
-# Fetch latest tags
-git fetch origin main --tags --force --quiet
-fulltag=$(git describe --tags --abbrev=0 origin/main 2>/dev/null || echo "0.0.0")
-echo "Latest tag: $fulltag"
+# Ensure we fetch all commits and tags, not just a shallow clone
+git fetch --tags --force --quiet
+git fetch origin main --depth=1 --quiet
+if git rev-parse --verify refs/remotes/origin/main >/dev/null 2>&1; then
+    fulltag=$(git describe --tags $(git rev-parse --verify refs/remotes/origin/main) 2>/dev/null || echo "0.0.0")
+else
+    fulltag="0.0.0"
+fi
+
+echo "Latest tag on origin/main: $fulltag"
 
 versiontag=$(echo $fulltag | cut -d'-' -f1)
 major=$(echo $versiontag | cut -d'.' -f1)
