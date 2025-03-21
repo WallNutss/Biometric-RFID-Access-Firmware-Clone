@@ -36,10 +36,26 @@ jobs:
       
       # TODO : Run Test Step
 
-      - name : Run Manual Versioning
+      - name: Run Manual Versioning
         id: runVersion
-        run: chmod +x ./scripts/determine_version.sh
+        run: |
+          chmod +x ./scripts/determine_version.sh
+          ./scripts/determine_version.sh
+          # Ensure these variables are being set correctly
+          echo "branchname=$branchname" >> $GITHUB_ENV
+          echo "commithash=$commithash" >> $GITHUB_ENV
+          echo "buildtimestamp=$buildtimestamp" >> $GITHUB_ENV
+          echo "buildversion=$buildversion" >> $GITHUB_ENV
+          echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
+      
+      - name: Debug the exported environment variables
+        run: |
+          echo "branchname: ${{ env.branchname }}"
+          echo "commithash: ${{ env.commithash }}"
+          echo "buildtimestamp: ${{ env.buildtimestamp }}"
+          echo "buildversion: ${{ env.buildversion }}"
+          echo "buildversionfilename: ${{ env.buildversionfilename }}"
 
       - name: Save Build info
         uses: "DamianReeves/write-file-action@master"
@@ -62,9 +78,6 @@ jobs:
             #define LAST_BUILD_TIMESTAMP ${{ env.buildtimestamp }};
 
             #endif
-
-      - name: Debug buildversion
-        run: echo ${{ env.buildversion }}
 
       - name: Bump versionInfo.h changes
         run: |
