@@ -108,6 +108,7 @@ There are possible development to increase the usability and the security of thi
 1. Is it possible to add a feature to Lock/Unlock the Car by using Smartphone but instead of pyshcially press the button to Lock/Unlock the Car, but what if using Proximity feature to have the abillity by allowing seamless access to the vehicle without the need for physical action
 2. Adding a way to safely hash the Key Access (wether its the Fingerprint or the NFC UID) in the SD Card, so if somehow someone have access to the physical SD Card, they cannot know the content of it
 3. Refactor the BLE Code to use the ESP-IDF BLE API rather using the BLE API that was provided by espressif-arduino or by Kolban, as the code is rather too big
+4. God damn
 
 ## Author
 ### Firmware Development
