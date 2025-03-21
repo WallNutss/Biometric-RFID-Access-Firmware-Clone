@@ -30,7 +30,7 @@ echo "Commit hash: $commithash"
 buildtimestamp=$(date "+%Y-%b-%d-%H:%M:%S")
 echo "Build timestamp: $buildtimestamp"
 
-# Ensure we fetch all commits and tags, not just a shallow clone
+git fetch --tags --force --quiet
 if git describe --tags --abbrev=0 2>/dev/null; then
     fulltag=$(git describe --tags --abbrev=0)
 else
