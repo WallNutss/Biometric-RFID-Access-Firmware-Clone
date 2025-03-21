@@ -31,13 +31,7 @@ buildtimestamp=$(date "+%Y-%b-%d-%H:%M:%S")
 echo "Build timestamp: $buildtimestamp"
 
 # Ensure we fetch all commits and tags, not just a shallow clone
-git fetch --tags --force --quiet
-git fetch origin main --depth=1 --quiet
-if git rev-parse --verify refs/remotes/origin/main >/dev/null 2>&1; then
-    fulltag=$(git describe --tags $(git rev-parse --verify refs/remotes/origin/main) 2>/dev/null || echo "0.0.0")
-else
-    fulltag="0.0.0"
-fi
+fulltag=$(git describe --tag $(git rev-parse --verify refs/remotes/origin/main))
 
 echo "Latest tag on origin/main: $fulltag"
 
