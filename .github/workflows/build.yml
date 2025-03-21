@@ -100,12 +100,21 @@ jobs:
             #endif
 
       - name: Bump versionInfo.h changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          default_author: github_actions
-          message: "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
-          add: "src/versionInfo.h"
-          cwd: "./"
+        # uses: EndBug/add-and-commit@v9
+        # with:
+        #   default_author: github_actions
+        #   message: "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
+        #   add: "src/versionInfo.h"
+        #   cwd: "./"
+        uses: actions/checkout@v4
+        run: |
+          date > generated.txt
+          # Note: the following account information will not work on GHES
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/versionInfo.h
+          git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
+          git push
 
       - name: Building
         run: chmod +x ./scripts/build.sh
