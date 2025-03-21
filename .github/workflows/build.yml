@@ -94,6 +94,8 @@ jobs:
 
       - name: Create Git Tag
         run: |
+          git config --global user.email "wallnuts73@gmail.com"
+          git config --global user.name "WallNutss"
           git tag -a "${{ env.buildversion }}" -m "Release version v${{ env.buildversion }}"
           git push origin tag "${{ env.buildversion }}"
         env:
