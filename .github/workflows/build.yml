@@ -38,7 +38,7 @@ jobs:
 
       - name : Run Manual Versioning
         id: runVersion
-        run: ./scripts/determine_version.sh
+        run: chmod +x ./scripts/determine_version.sh
         shell: bash
 
       - name: Save Build info
@@ -74,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name : Building
-        run: ./scripts/build.sh
+        run: chmod +x ./scripts/build.sh
         shell: bash
 
       - name: Create Git Tag
