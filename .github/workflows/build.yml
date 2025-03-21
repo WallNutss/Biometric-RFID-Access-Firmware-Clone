@@ -50,6 +50,14 @@ jobs:
           echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
 
+      - name: Debug the exported environment variables
+        run: |
+          echo ${{ env.branchname }}
+          echo ${{ env.commithash }}
+          echo ${{ env.buildtimestamp }}
+          echo ${{ env.buildversion }}
+          echo ${{ env.buildversionfilename }}
+
   build-version-steps:
     runs-on: ubuntu-latest
     steps:
