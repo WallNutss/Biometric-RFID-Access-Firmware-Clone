@@ -84,7 +84,7 @@ jobs:
 
       - name: Bump versionInfo.h changes
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name "github-actions"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add src/versionInfo.h
           git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]" || exit 0
