@@ -9,8 +9,6 @@ on:
 
 jobs:
   build-esp-32:
-    permissions: write-all
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,16 +24,16 @@ jobs:
             ~/.platformio/.cache
           key: ${{ runner.os }}-pio-esp32dev
 
-      - name : Setup Python
-        uses : actions/setup-python@v5.0.0
-        with :
+      - name: Setup Python
+        uses: actions/setup-python@v5.0.0
+        with:
           python-version: "3.10"
-      
-      - name : Install PlatformIO and ESP-IDF Tool
+
+      - name: Install PlatformIO and ESP-IDF Tool
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade platformio esptool
-      
+
       # TODO : Run Test Step
 
       - name: Run Manual Versioning
@@ -44,13 +42,20 @@ jobs:
           chmod +x ./scripts/determine_version.sh
           ./scripts/determine_version.sh
           # Ensure these variables are being set correctly
+          echo $git describe --tags --abbrev=0
+          echo $branchname
+          echo $commithash
+          echo $buildtimestamp
+          echo $buildversion
+          echo $buildversionfilename  
+
+
           echo "branchname=$branchname" >> $GITHUB_ENV
           echo "commithash=$commithash" >> $GITHUB_ENV
           echo "buildtimestamp=$buildtimestamp" >> $GITHUB_ENV
           echo "buildversion=$buildversion" >> $GITHUB_ENV
           echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
-      
       - name: Debug the exported environment variables
         run: |
           echo ${{ env.branchname }}
@@ -82,21 +87,21 @@ jobs:
             #endif
 
       - name: Bump versionInfo.h changes
-        run: |
-          git config --global user.name "${{ secrets.USERNAME }}"
-          git config --global user.email "${{ secrets.EMAIL }}"
-          git add src/versionInfo.h
-          git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
+          message: "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
+          add: "src/versionInfo.h"
+          cwd: "./"
 
-      - name : Building
+      - name: Building
         run: chmod +x ./scripts/build.sh
         shell: bash
 
       - name: Create Git Tag
         run: |
+          git config --global user.email "wallnuts73@gmail.com"
+          git config --global user.name "WallNutss"
           git tag -a "${{ env.buildversion }}" -m "Release version v${{ env.buildversion }}"
           git push origin tag "${{ env.buildversion }}"
         env:
