@@ -10,9 +10,6 @@ on:
 jobs:
   build-esp-32:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -45,12 +42,11 @@ jobs:
           chmod +x ./scripts/determine_version.sh
           ./scripts/determine_version.sh
           # Ensure these variables are being set correctly
-          echo $git describe --tags --abbrev=0
-          echo "branchname=$branchname" >> $GITHUB_ENV
-          echo "commithash=$commithash" >> $GITHUB_ENV
-          echo "buildtimestamp=$buildtimestamp" >> $GITHUB_ENV
-          echo "buildversion=$buildversion" >> $GITHUB_ENV
-          echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
+          echo "branchname=${branchname}" >> $GITHUB_ENV
+          echo "commithash=${commithash}" >> $GITHUB_ENV
+          echo "buildtimestamp=${buildtimestamp}" >> $GITHUB_ENV
+          echo "buildversion=${buildversion}" >> $GITHUB_ENV
+          echo "buildversionfilename=${buildversionfilename}" >> $GITHUB_ENV
         shell: bash
       - name: Debug the exported environment variables
         run: |
