@@ -55,13 +55,6 @@ echo "New version: $new_version"
 buildversion="$new_version"
 buildversionfilename=$(echo $buildversion | tr '.' '_')
 
-echo "::set-output name=branchname::$branchname"
-echo "::set-output name=commithash::$commithash"
-echo "::set-output name=buildtimestamp::$buildtimestamp"
-echo "::set-output name=buildversion::$buildversion"
-echo "::set-output name=buildversionfilename::$buildversionfilename"
-
-
 echo "branchname=$branchname" >> $GITHUB_ENV
 echo "commithash=$commithash" >> $GITHUB_ENV
 echo "buildtimestamp=$buildtimestamp" >> $GITHUB_ENV
