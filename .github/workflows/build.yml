@@ -50,7 +50,7 @@ jobs:
           echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
 
-    build-version:
+    build-version-steps:
       runs-on: ubuntu-latest
       steps:
         - name: Debug the exported environment variables
