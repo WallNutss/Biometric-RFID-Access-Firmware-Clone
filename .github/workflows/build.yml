@@ -51,11 +51,11 @@ jobs:
       
       - name: Debug the exported environment variables
         run: |
-          echo ${{ env.branchname }}"
-          echo ${{ env.commithash }}"
-          echo ${{ env.buildtimestamp }}"
-          echo ${{ env.buildversion }}"
-          echo ${{ env.buildversionfilename }}"
+          echo ${{ env.branchname }}
+          echo ${{ env.commithash }}
+          echo ${{ env.buildtimestamp }}
+          echo ${{ env.buildversion }}
+          echo ${{ env.buildversionfilename }}
 
       - name: Save Build info
         uses: "DamianReeves/write-file-action@master"
