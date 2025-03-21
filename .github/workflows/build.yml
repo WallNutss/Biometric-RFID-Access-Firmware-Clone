@@ -43,14 +43,6 @@ jobs:
         run: |
           chmod +x ./scripts/determine_version.sh
           ./scripts/determine_version.sh
-          # Ensure these variables are being set correctly
-          echo $git describe --tags --abbrev=0
-          echo $branchname
-          echo "KEY=VALUE" >>$GITHUB_OUTPUT
-          echo $commithash
-          echo $buildtimestamp
-          echo $buildversion
-          echo $buildversionfilename
 
         shell: bash
       - name: Debug the exported environment variables
@@ -61,11 +53,6 @@ jobs:
           echo ${{ env.buildversion }}
           echo ${{ env.buildversionfilename }}
 
-          echo ${{ steps.runVersion.outputs.branchname }}
-          echo ${{ steps.runVersion.outputs.commithash }}
-          echo ${{ steps.runVersion.outputs.buildtimestamp }}
-          echo ${{ steps.runVersion.outputs.buildversion }}
-          echo ${{ steps.runVersion.outputs.buildversionfilename }}
       - name: Save Build info
         uses: "DamianReeves/write-file-action@master"
         with:
@@ -89,12 +76,6 @@ jobs:
             #endif
 
       - name: Bump versionInfo.h changes
-        # uses: EndBug/add-and-commit@v9
-        # with:
-        #   default_author: github_actions
-        #   message: "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
-        #   add: "src/versionInfo.h"
-        #   cwd: "./"
         run: |
           git config user.name "WallNutss"
           git config user.email "wallnuts73@gmail.com"
