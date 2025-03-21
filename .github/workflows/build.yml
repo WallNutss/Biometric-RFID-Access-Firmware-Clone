@@ -82,7 +82,7 @@ jobs:
       - name: Bump versionInfo.h changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Bump versionInfo.h to ${{ env.buildversion }} [skip ci]'
+          message: '[skip ci] Bump versionInfo.h to ${{ env.buildversion }}'
           add: 'src/versionInfo.h'
           cwd: './Biometric-RFID-Access-Firmware-Clone'
 
