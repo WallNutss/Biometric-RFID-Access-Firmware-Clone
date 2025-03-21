@@ -31,8 +31,8 @@ buildtimestamp=$(date "+%Y-%b-%d-%H:%M:%S")
 echo "Build timestamp: $buildtimestamp"
 
 # Fetch latest tags
-git fetch --tags >/dev/null 2>&1
-fulltag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+git fetch origin main --tags --force --quiet
+fulltag=$(git describe --tags --abbrev=0 origin/main 2>/dev/null || echo "0.0.0")
 echo "Latest tag: $fulltag"
 
 versiontag=$(echo $fulltag | cut -d'-' -f1)
