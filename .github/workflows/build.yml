@@ -90,21 +90,14 @@ jobs:
           ./scripts/build.sh
         shell: bash
 
-      - name: Create Git Tag
-        run: |
-          git config user.name "WallNutss"
-          git config user.email "wallnuts73@gmail.com"
-          git tag -a "${{ env.buildversion }}" -m "Release version v${{ env.buildversion }}"
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git tag "${{ env.buildversion }}"
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.buildversion }}
-          release_name: Release ${{ env.buildversion }}
+          release_name: v${{ env.buildversion }}
           draft: false
           prerelease: false
 
@@ -115,14 +108,5 @@ jobs:
           asset_path: ./out/biometric-esp32-group-c.zip
           asset_name: biometric-esp32-group-c-${{ env.buildversion }}.zip
           asset_content_type: application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Merge update main changes into develop
-        run: |
-          git fetch origin
-          git checkout develop
-          git merge origin/main
-          git push origin develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
