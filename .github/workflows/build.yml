@@ -10,6 +10,9 @@ on:
 jobs:
   build-esp-32:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -49,18 +52,6 @@ jobs:
           echo "buildversion=$buildversion" >> $GITHUB_ENV
           echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
-
-      - name: Debug the exported environment variables
-        run: |
-          echo ${{ env.branchname }}
-          echo ${{ env.commithash }}
-          echo ${{ env.buildtimestamp }}
-          echo ${{ env.buildversion }}
-          echo ${{ env.buildversionfilename }}
-
-  build-version-steps:
-    runs-on: ubuntu-latest
-    steps:
       - name: Debug the exported environment variables
         run: |
           echo ${{ env.branchname }}
@@ -94,9 +85,10 @@ jobs:
       - name: Bump versionInfo.h changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: "Bump versionInfo.h to [skip ci]"
+          default_author: github_actions
+          message: "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
           add: "src/versionInfo.h"
-          cwd: "./Biometric-RFID-Access-Firmware-Clone"
+          cwd: "./"
 
       - name: Building
         run: chmod +x ./scripts/build.sh
