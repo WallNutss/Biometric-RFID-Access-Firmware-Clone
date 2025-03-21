@@ -80,11 +80,11 @@ jobs:
             #endif
 
       - name: Bump versionInfo.h changes
-      - uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v9
         with:
           message: 'Bump versionInfo.h to ${{ env.buildversion }} [skip ci]'
           add: 'src/versionInfo.h'
-          cwd: ' ./Biometric-RFID-Access-Firmware-Clone'
+          cwd: './Biometric-RFID-Access-Firmware-Clone'
 
       - name : Building
         run: chmod +x ./scripts/build.sh
