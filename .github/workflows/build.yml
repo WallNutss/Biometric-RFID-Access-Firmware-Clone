@@ -9,10 +9,9 @@ on:
 
 jobs:
   build-esp-32:
+    permissions: write-all
+
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -27,16 +26,16 @@ jobs:
             ~/.platformio/.cache
           key: ${{ runner.os }}-pio-esp32dev
 
-      - name: Setup Python
-        uses: actions/setup-python@v5.0.0
-        with:
+      - name : Setup Python
+        uses : actions/setup-python@v5.0.0
+        with :
           python-version: "3.10"
-
-      - name: Install PlatformIO and ESP-IDF Tool
+      
+      - name : Install PlatformIO and ESP-IDF Tool
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade platformio esptool
-
+      
       # TODO : Run Test Step
 
       - name: Run Manual Versioning
@@ -51,6 +50,7 @@ jobs:
           echo "buildversion=$buildversion" >> $GITHUB_ENV
           echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
         shell: bash
+      
       - name: Debug the exported environment variables
         run: |
           echo ${{ env.branchname }}
@@ -83,21 +83,20 @@ jobs:
 
       - name: Bump versionInfo.h changes
         run: |
-          git config --global user.email "wallnuts73@gmail.com"
-          git config --global user.name "WallNutss"
-          git remote set-url origin git@github.com:WallNutss/Biometric-RFID-Access-Firmware-Clone.git
-          git add "src/versionInfo.h"
+          git config --global user.name "${{ secrets.USERNAME }}"
+          git config --global user.email "${{ secrets.EMAIL }}"
+          git add src/versionInfo.h
           git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]"
-          git push origin 
-      - name: Building
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name : Building
         run: chmod +x ./scripts/build.sh
         shell: bash
 
       - name: Create Git Tag
         run: |
-          git config --global user.email "wallnuts73@gmail.com"
-          git config --global user.name "WallNutss"
-          git remote set-url origin git@github.com:WallNutss/Biometric-RFID-Access-Firmware-Clone.git
           git tag -a "${{ env.buildversion }}" -m "Release version v${{ env.buildversion }}"
           git push origin tag "${{ env.buildversion }}"
         env:
