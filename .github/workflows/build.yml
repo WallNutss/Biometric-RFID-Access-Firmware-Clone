@@ -63,6 +63,9 @@ jobs:
 
             #endif
 
+      - name: Debug buildversion
+        run: echo ${{ env.buildversion }}
+
       - name: Bump versionInfo.h changes
         run: |
           git config --global user.name "${{ secrets.USERNAME }}"
