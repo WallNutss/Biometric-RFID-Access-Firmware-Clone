@@ -72,6 +72,11 @@ jobs:
           echo ${{ env.buildversion }}
           echo ${{ env.buildversionfilename }}
 
+          echo ${{ steps.runVersion.outputs.branchname }}
+          echo ${{ steps.runVersion.outputs.commithash }}
+          echo ${{ steps.runVersion.outputs.buildtimestamp }}
+          echo ${{ steps.runVersion.outputs.buildversion }}
+          echo ${{ steps.runVersion.outputs.buildversionfilename }}
       - name: Save Build info
         uses: "DamianReeves/write-file-action@master"
         with:
