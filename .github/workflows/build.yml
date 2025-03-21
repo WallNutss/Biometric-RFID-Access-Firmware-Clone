@@ -59,11 +59,6 @@ jobs:
           # echo "buildversion=$buildversion" >> $GITHUB_ENV
           # echo "buildversionfilename=$buildversionfilename" >> $GITHUB_ENV
 
-          # echo "branchname=$(echo $branchname)" >> $GITHUB_OUTPUT
-          # echo "commithash=$(echo $commithash)" >> $GITHUB_OUTPUT
-          # echo "buildtimestamp=$(echo $buildtimestamp)" >> $GITHUB_OUTPUT
-          # echo "buildversion=$(echo $buildversion)" >> $GITHUB_OUTPUT
-          # echo "buildversionfilename=$(echo $buildversionfilename)" >> $GITHUB_OUTPUT
 
         shell: bash
       - name: Debug the exported environment variables
