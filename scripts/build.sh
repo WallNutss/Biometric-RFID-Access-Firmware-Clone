@@ -27,9 +27,9 @@ cp ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app
 
 # Zip the folder
 zip_cmd="zip $output_dir/biometric-esp32-group-c.zip"
-[ -f "$platformio_build_dir/bootloader.bin" ] && zip_cmd="$zip_cmd $platformio_build_dir/bootloader.bin"
-[ -f "$platformio_build_dir/partitions.bin" ] && zip_cmd="$zip_cmd $platformio_build_dir/partitions.bin"
-[ -f "$platformio_build_dir/firmware.bin" ] && zip_cmd="$zip_cmd $platformio_build_dir/firmware.bin"
-[ -f "$platformio_build_dir/spiffs.bin" ] && zip_cmd="$zip_cmd $platformio_build_dir/spiffs.bin"
-[ -f "~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin" ] && zip_cmd="$zip_cmd ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin"
+[ -f "$platformio_build_dir/bootloader.bin" ] && zip_cmd="$zip_cmd bootloader.bin"
+[ -f "partitions.bin" ] && zip_cmd="$zip_cmd partitions.bin"
+[ -f "$platformio_build_dir/firmware.bin" ] && zip_cmd="$zip_cmd firmware.bin"
+[ -f "$platformio_build_dir/spiffs.bin" ] && zip_cmd="$zip_cmd spiffs.bin"
+[ -f "~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin" ] && zip_cmd="$zip_cmd boot_app0.bin"
 eval $zip_cmd
