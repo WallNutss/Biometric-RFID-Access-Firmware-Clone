@@ -25,11 +25,17 @@ cp $platformio_build_dir/firmware.bin $output_dir/firmware.bin
 cp $platformio_build_dir/spiffs.bin $output_dir/spiffs.bin
 cp ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin $output_dir/boot_app0.bin
 
-# Zip the folder
+cd $output_dir
+
+# Initialize zip command
 zip_cmd="zip $output_dir/biometric-esp32-group-c.zip"
-[ -f "$output_dir/bootloader.bin" ] && zip_cmd="$zip_cmd $output_dir/bootloader.bin"
-[ -f "$output_dir/partitions.bin" ] && zip_cmd="$zip_cmd $output_dir/partitions.bin"
-[ -f "$output_dir/firmware.bin" ] && zip_cmd="$zip_cmd $output_dir/firmware.bin"
-[ -f "$output_dir/spiffs.bin" ] && zip_cmd="$zip_cmd $output_dir/spiffs.bin"
-[ -f "$output_dir/boot_app0.bin" ] && zip_cmd="$zip_cmd $output_dir/boot_app0.bin"
+
+# Add files to the zip only if they exist
+[ -f "$output_dir/bootloader.bin" ] && zip_cmd="$zip_cmd bootloader.bin"
+[ -f "$output_dir/partitions.bin" ] && zip_cmd="$zip_cmd partitions.bin"
+[ -f "$output_dir/firmware.bin" ] && zip_cmd="$zip_cmd firmware.bin"
+[ -f "$output_dir/spiffs.bin" ] && zip_cmd="$zip_cmd spiffs.bin"
+[ -f "$output_dir/boot_app0.bin" ] && zip_cmd="$zip_cmd boot_app0.bin"
+
+# Execute the zip command
 eval $zip_cmd
