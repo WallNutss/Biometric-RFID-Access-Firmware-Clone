@@ -81,30 +81,13 @@ jobs:
           git add src/versionInfo.h
           git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]" || exit 0
           git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
-      
-      - name: Verify Commit
-        run: |
-          echo "GitHub SHA: ${{ github.sha }}"
-          git log -n 1
-      
-      - name: Fetch Latest Changes (after commit)
-        run: |
-          git fetch --prune origin
-          git reset --hard origin/${{ github.ref_name }}
 
-      - name: Verify Commit (again)
+      - name: Verify Commit
         run: |
           echo "GitHub SHA (from context): ${{ github.sha }}"
           LATEST_COMMIT_SHA=$(git rev-parse HEAD)
           echo "LATEST_COMMIT_SHA=$LATEST_COMMIT_SHA" >> $GITHUB_ENV
           git log -n 1
-
-      - name: Checkout latest commit
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}  # Checkout the correct branch after the push
-          fetch-depth: 0
-          persist-credentials: false
       
       - name: Building
         run: |
@@ -116,7 +99,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.buildversion }}
-          release_name: "v${{ env.buildversion }}"
+          name: "v${{ env.buildversion }}"
           draft: false
           prerelease: false
           files: ./out/biometric-esp32-group-c.zip
