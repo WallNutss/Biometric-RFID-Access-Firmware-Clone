@@ -92,7 +92,7 @@ jobs:
       - name: Fetch Latest Changes (after commit)
         run: |
           git fetch --prune origin
-          git reset --hard origin/${{ github.ref }}
+          git reset --hard origin/${{ github.ref_name }}
       
       - name: Building
         run: | 
