@@ -89,6 +89,12 @@ jobs:
       - name: Fetch Latest Commit
         run: |
           git log --oneline --all
+
+      - name: Checkout again (after commit)
+        uses: actions/checkout@v4.1.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
       
       - name: Building
         run: | 
