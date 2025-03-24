@@ -88,6 +88,11 @@ jobs:
           ref: main
           fetch-depth: 0
           persist-credentials: false
+
+      - name: Fetch Latest Changes (after commit)
+        run: |
+          git fetch --prune origin
+          git reset --hard origin/${{ github.ref }}
       
       - name: Building
         run: | 
