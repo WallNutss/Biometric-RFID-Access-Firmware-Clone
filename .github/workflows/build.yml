@@ -87,17 +87,22 @@ jobs:
           echo "GitHub SHA: ${{ github.sha }}"
           git log -n 1
       
+      - name: Fetch Latest Changes (after commit)
+        run: |
+          git fetch --prune origin
+          git reset --hard origin/${{ github.ref_name }}
+
+      - name: Verify Commit (again)
+        run: |
+          echo "GitHub SHA (from context): ${{ github.sha }}"
+          git log -n 1
+
       - name: Checkout latest commit
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}  # Checkout the correct branch after the push
           fetch-depth: 0
           persist-credentials: false
-      
-      - name: Fetch Latest Changes (after commit)
-        run: |
-          git fetch --prune origin
-          git reset --hard origin/${{ github.ref_name }}
       
       - name: Building
         run: |
