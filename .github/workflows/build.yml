@@ -94,15 +94,19 @@ jobs:
           chmod +x ./scripts/build.sh
           ./scripts/build.sh
         shell: bash
+
+      - name: Rename Files
+        run: |
+          mv ./out/biometric-esp32-group-c.zip ./out/biometric-esp32-group-c-${{ env.buildversion }}.zip
       
-      - name: Create Release with action-gh-release
-        uses: softprops/action-gh-release@v1
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.buildversion }}
           name: "v${{ env.buildversion }}"
           draft: false
           prerelease: false
-          files: ./out/biometric-esp32-group-c.zip
+          files: ./out/biometric-esp32-group-c-${{ env.buildversion }}.zip
           target_commitish: ${{ env.LATEST_COMMIT_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
