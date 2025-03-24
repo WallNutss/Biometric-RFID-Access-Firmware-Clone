@@ -96,9 +96,14 @@ jobs:
         shell: bash
 
       - name: Create Release with action-gh-release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ env.buildversion }}
+          release_name: "v${{ env.buildversion }}"
+          draft: false
+          prerelease: false
           files: ./out/biometric-esp32-group-c.zip
           target_commitish: ${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
