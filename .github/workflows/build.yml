@@ -95,6 +95,8 @@ jobs:
       - name: Verify Commit (again)
         run: |
           echo "GitHub SHA (from context): ${{ github.sha }}"
+          LATEST_COMMIT_SHA=$(git rev-parse HEAD)
+          echo "LATEST_COMMIT_SHA=$LATEST_COMMIT_SHA" >> $GITHUB_ENV
           git log -n 1
 
       - name: Checkout latest commit
@@ -118,6 +120,6 @@ jobs:
           draft: false
           prerelease: false
           files: ./out/biometric-esp32-group-c.zip
-          target_commitish: ${{ github.sha }}  # Ensure this is the latest commit after the push
+          target_commitish: ${{ env.LATEST_COMMIT_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
