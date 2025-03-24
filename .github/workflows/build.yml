@@ -86,6 +86,7 @@ jobs:
         run: |
           git fetch origin ${GITHUB_SHA}
           git reset --hard ${GITHUB_SHA}
+          git log --oneline --all
       
       - name: Building
         run: | 
