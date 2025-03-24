@@ -82,6 +82,11 @@ jobs:
           git commit -m "Bump versionInfo.h to ${{ env.buildversion }} [skip ci]" || exit 0
           git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
 
+      - name: Fetch Latest Changes (after commit)
+        run: |
+          git fetch --prune origin
+          git reset --hard origin/${{ github.ref }}
+
       - name: Pull Latest Changes (after commit)
         run: |
           git pull origin ${{ github.ref }}
